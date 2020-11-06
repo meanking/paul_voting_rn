@@ -6,19 +6,55 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          Home: {
             screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
+              Home: {
+                screens: {
+                  Home: {
+                    screens: {
+                      HomeScreen: 'home',
+                    },
+                    screens: {
+                      LoginScreen: 'login',
+                    },
+                    screens: {
+                      ScheduleScreen: 'schedule',
+                    },
+                    screens: {
+                      ParticipateScreen: 'participate',
+                    },
+                  },
+                  Live: {
+                    screens: {
+                      LiveScreen: 'live',
+                    },
+                  },
+                  Tokens: {
+                    screens: {
+                      TokensScreen: 'tokens',
+                    },
+                  },
+                  Vote: {
+                    screens: {
+                      VoteScreen: 'vote',
+                    },
+                  },
+                  Scoreboard: {
+                    screens: {
+                      ScoreboardScreen: 'scoreboard',
+                    },
+                  },
+                  Chat: {
+                    screens: {
+                      ChatScreen: 'chat',
+                    },
+                  },
+                }
+              }
+            }
+          }
         },
-      },
-      NotFound: '*',
+      }
     },
   },
 };

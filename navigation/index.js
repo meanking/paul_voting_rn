@@ -4,7 +4,14 @@ import * as React from 'react';
 
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
+import SidebarbNavigator from './SidebarNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+
+// import { MainStackNavigator } from "./StackNavigator";
+
+// import BottomTabNavigator from "./TabNavigtor";
+
+// import DrawerNavigator from "./DrawerNavigator";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -14,6 +21,7 @@ export default function Navigation({ colorScheme }) {
       linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
+      {/* <DrawerNavigator /> */}
     </NavigationContainer>
   );
 }
@@ -25,7 +33,7 @@ const Stack = createStackNavigator();
 function RootNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+      <Stack.Screen name="Root" component={SidebarbNavigator} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
