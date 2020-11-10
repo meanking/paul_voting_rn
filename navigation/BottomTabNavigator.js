@@ -1,5 +1,4 @@
-import { TouchableOpacity } from 'react-native';
-import { Ionicons, AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
@@ -75,47 +74,39 @@ export default function BottomTabNavigator() {
   );
 }
 
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-}
-
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator();
 
 function HomeNavigator() {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator initialRouteName="HomeScreen">
       <HomeStack.Screen
         name="HomeScreen"
         component={HomeScreen}
-        options={{
-          headerShown:false
-        }}
+        options={{ headerShown:false }}
       />
-      <VoteStack.Screen
+      <HomeStack.Screen
         name="LoginScreen"
         component={LoginScreen}
         options={{ headerShown: false }}
       />
-      <VoteStack.Screen
+      <HomeStack.Screen
         name="ScheduleScreen"
         component={ScheduleScreen}
         options={{ headerShown: false }}
       />
-      <VoteStack.Screen
+      <HomeStack.Screen
         name="ParticipateScreen"
         component={ParticipateScreen}
         options={{ headerShown: false }}
       />
-      <VoteStack.Screen
+      <HomeStack.Screen
         name="PastShowsScreen"
         component={PastShowsScreen}
         options={{ headerShown: false }}
       />
-      <VoteStack.Screen
+      <HomeStack.Screen
         name="SponsorsScreen"
         component={SponsorsScreen}
         options={{ headerShown: false }}

@@ -6,17 +6,9 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomTabNavigator from './BottomTabNavigator';
-
-import HomeScreen from '../screens/HomeScreen';
-import LiveScreen from '../screens/LiveScreen';
-import TokensScreen from '../screens/TokensScreen';
-import VoteScreen from '../screens/VoteScreen';
-import ScoreboardScreen from '../screens/ScoreboardScreen';
-import ChatScreen from '../screens/ChatScreen';
 
 // Import Custom Sidebar
 import CustomSidebarMenu from './CustomSidebarMenu';
@@ -34,7 +26,6 @@ const NavigationDrawerStructure = (props) => {
   return (
     <View style={{ flexDirection: 'row' }}>
       <TouchableOpacity onPress={toggleDrawer}>
-        {/*Donute Button Image */}
         <Image
           source={{
             uri:

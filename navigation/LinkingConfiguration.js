@@ -13,15 +13,11 @@ export default {
                   Home: {
                     screens: {
                       HomeScreen: 'home',
-                    },
-                    screens: {
                       LoginScreen: 'login',
-                    },
-                    screens: {
                       ScheduleScreen: 'schedule',
-                    },
-                    screens: {
                       ParticipateScreen: 'participate',
+                      PastShowsScreen: 'pastshows',
+                      Sponsors: 'sponsors',
                     },
                   },
                   Live: {
