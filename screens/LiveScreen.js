@@ -1,25 +1,38 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { 
+  StyleSheet,
+  ImageBackground 
+} from 'react-native';
 
 import { Text, View } from '../components/Themed';
+const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
 
 export default function LiveScreen() {
   return (
-    <View style={styles.container}>
+    <ImageBackground source={bg} style={styles.bg_image}>
       <Text style={styles.title}>Live page</Text>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  bg_image: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 70,
+    color: '#23BC9D',
+    fontFamily: 'palookabb',
+    textShadowColor: '#FFFFFF',
+    textShadowOffset: {width: 1, height: 1}
   },
   separator: {
     marginVertical: 30,
