@@ -4,33 +4,30 @@ import {
   ImageBackground, 
   Image,
   Text,
-  View,
-  Dimensions 
+  View
 } from 'react-native';
 
-const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
-
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
+import Layout from '../constants/Layout';
+import Colors from '../constants/Colors';
+import Assets from '../constants/Assets';
 
 let logoWidth = 320;
 let notice1FontSize = 60;
 let notice2FontSize = 80;
 let notice3FontSize = 60;
-if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
+if (Layout.window.height >= 700 && Layout.window.height < 736) {
   logoWidth = 310;
-} else if (DEVICE_HEIGHT >= 640 && DEVICE_HEIGHT < 700) {
+} else if (Layout.window.height >= 640 && Layout.window.height < 700) {
   logoWidth = 290;
   notice1FontSize = 50;
   notice2FontSize = 68;
   notice3FontSize = 50;
-} else if (DEVICE_HEIGHT >= 600 && DEVICE_HEIGHT < 640) {
+} else if (Layout.window.height >= 600 && Layout.window.height < 640) {
   logoWidth = 280;
   notice1FontSize = 45;
   notice2FontSize = 62;
   notice3FontSize = 45;
-} else if (DEVICE_HEIGHT < 600) {
+} else if (Layout.window.height < 600) {
   logoWidth = 270;
   notice1FontSize = 40;
   notice2FontSize = 55;
@@ -39,8 +36,8 @@ if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
 
 export default function HomeScreen() {
   return (
-    <ImageBackground source={bg} style={styles.bg_image}>
-      <Image source={logo} style={styles.logo_image} />
+    <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
+      <Image source={Assets.images.logo} style={styles.logo_image} />
       <View style={styles.notice_view}>
         <Text style={styles.notice1}>
           {`Tune in live`.toUpperCase()}
@@ -66,39 +63,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo_image: {
-    marginTop: DEVICE_HEIGHT * 0.01,
+    marginTop: Layout.window.height * 0.01,
     width: logoWidth,
     height: logoWidth,
   },
   notice_view: {
-    marginTop: DEVICE_HEIGHT * 0.02, 
+    marginTop: Layout.window.height * 0.02, 
     flex:1, 
     width: '100%', 
     alignItems: 'center'
   },
   notice1: { 
-    fontFamily: 'PalookaBB', 
-    color: '#F727A0', 
+    fontFamily: Assets.fonts.pal, 
+    color: Colors.purple, 
     fontSize: notice1FontSize, 
     fontWeight: 'bold'
   },
   notice2: { 
-    fontFamily: 'Calibrib', 
-    color: '#7CF5FE', 
+    fontFamily: Assets.fonts.calB, 
+    color: Colors.sky, 
     fontSize: notice2FontSize, 
     fontWeight: 'bold', 
     marginTop: -20 
   },
   notice3: { 
-    fontFamily: 'PalookaBB', 
-    color: '#FDFD00', 
+    fontFamily: Assets.fonts.pal, 
+    color: Colors.yellow, 
     fontSize: notice3FontSize, 
     fontWeight: 'bold', 
     marginTop: -10 
   },
   notice4: { 
     fontFamily: 'Calibri', 
-    color: '#FFFFFF', 
+    color: Colors.white, 
     fontSize: 22
   }
 });

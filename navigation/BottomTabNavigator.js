@@ -13,7 +13,9 @@ import VoteScreen from '../screens/VoteScreen';
 import ScoreboardScreen from '../screens/ScoreboardScreen';
 import ChatScreen from '../screens/ChatScreen';
 
-import LoginScreen from '../screens/LoginScreen';
+import LoginScreen from '../screens/auth/LoginScreen';
+import ForgotScreen from '../screens/auth/ForgotScreen';
+import SignupScreen from '../screens/auth/SignupScreen';
 import ScheduleScreen from '../screens/ScheduleScreen';
 import ParticipateScreen from '../screens/ParticipateScreen';
 import PastShowsScreen from '../screens/PastShowsScreen';
@@ -88,7 +90,7 @@ function HomeNavigator() {
       />
       <HomeStack.Screen
         name="LoginScreen"
-        component={LoginScreen}
+        component={AuthNavigator}
         options={{ headerShown: false }}
       />
       <HomeStack.Screen
@@ -115,8 +117,30 @@ function HomeNavigator() {
   );
 }
 
-const LiveStack = createStackNavigator();
+const AuthStact = createStackNavigator();
+function AuthNavigator() {
+  return (
+    <AuthStact.Navigator initialRouteName="LoginScreen">
+      <AuthStact.Screen
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <AuthStact.Screen
+        name="ForgotScreen"
+        component={ForgotScreen}
+        options={{ headerShown: false }}
+      />
+      <AuthStact.Screen
+        name="SignupScreen"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+    </AuthStact.Navigator>
+  );
+}
 
+const LiveStack = createStackNavigator();
 function LiveNavigator() {
   return (
     <LiveStack.Navigator>
@@ -130,7 +154,6 @@ function LiveNavigator() {
 }
 
 const TokensStack = createStackNavigator();
-
 function TokensNavigator() {
   return (
     <TokensStack.Navigator>
@@ -144,7 +167,6 @@ function TokensNavigator() {
 }
 
 const VoteStack = createStackNavigator();
-
 function VoteNavigator() {
   return (
     <VoteStack.Navigator>
@@ -158,7 +180,6 @@ function VoteNavigator() {
 }
 
 const ScoreboardStack = createStackNavigator();
-
 function ScoreboardNavigator() {
   return (
     <ScoreboardStack.Navigator>
@@ -172,7 +193,6 @@ function ScoreboardNavigator() {
 }
 
 const ChatStack = createStackNavigator();
-
 function ChatNavigator() {
   return (
     <ChatStack.Navigator>

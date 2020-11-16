@@ -2,17 +2,13 @@ import * as React from 'react';
 import {
   StyleSheet,
   ImageBackground,
-  Dimensions,
 } from 'react-native';
 const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
 
 export default function LiveScreen() {
   return (
     <ImageBackground source={bg} style={styles.bg_image}>
-      <iframe src="https://player.vimeo.com/video/474213316" width={DEVICE_WIDTH} height={DEVICE_HEIGHT} frameBorder="0" allow="autoplay; fullscreen" allowFullScreen></iframe>
+      <iframe src="https://vimeo.com/event/30687/embed" frameBorder="0" allow="autoplay; fullscreen" allowFullScreen style={{position:'absolute', top:0, left:0, width: '100%', height: '100%'}}></iframe>
     </ImageBackground>
   );
 }

@@ -1,34 +1,69 @@
-import * as React from 'react';
-import { 
+import React, { useState } from 'react';
+import {
   StyleSheet,
   ImageBackground,
-  Dimensions,
-  Image
+  Image,
+  Text,
+  FlatList,
+  View,
 } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import Layout from '../constants/Layout';
+import Assets from '../constants/Assets';
+import Colors from '../constants/Colors';
+import Data from '../constants/Data';
 
-import { Text, View } from '../components/Themed';
-const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
+const episodes_data = Data.episods;
 
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
-
-let logoWidth = 320;
-if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
-  logoWidth = 310;
-} else if (DEVICE_HEIGHT >= 640 && DEVICE_HEIGHT < 700) {
-  logoWidth = 290;
-} else if (DEVICE_HEIGHT >= 600 && DEVICE_HEIGHT < 640) {
-  logoWidth = 280;
-} else if (DEVICE_HEIGHT < 600) {
-  logoWidth = 270;
+function ListItem (props) {
+  return (
+    <View 
+      style={{
+        width: Layout.window.width * 0.8,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 10,
+      }}
+    >
+      <Text style={{color: Colors.white}}>{props.date}</Text>
+      <Text style={{color: Colors.white}}>{props.time}</Text>
+      <Text style={{color: Colors.white}}>{props.episodeName}</Text>
+      <AntDesign name="book" size={18} color="white" />
+    </View>
+  )
 }
 
 export default function ScheduleScreen() {
+  const [episodes, setEpisodes] = useState(episodes_data);
   return (
-    <ImageBackground source={bg} style={styles.bg_image}>
-      <Image source={logo} style={styles.logo_image} />
-      <Text style={styles.title}>Schedule page</Text>
+    <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
+      <Image source={Assets.images.logo} style={styles.logo_image} />
+      <Text style={styles.title}>Schedule</Text>
+      <View
+        style={{
+          width: Layout.window.width * 0.8,
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text style={{ color: Colors.white }}>Date</Text>
+        <Text style={{ color: Colors.white }}>Time</Text>
+        <Text style={{ color: Colors.white }}>Episode</Text>
+        <Text style={{ color: Colors.white }}>Invite</Text>
+      </View>
+      <FlatList
+        data={episodes}
+        renderItem={({ item }) => (
+          <ListItem
+            date={item.date}
+            time={item.time}
+            episodeName={item.episode_name}
+            url={item.url}
+          />
+        )}
+      />
     </ImageBackground>
   );
 }
@@ -41,25 +76,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   logo_image: {
-    marginTop: -160,
-    width: logoWidth,
-    height: logoWidth,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: -50,
+    width: Layout.logoWidth,
+    height: Layout.logoWidth,
+    display: Layout.logoShow,
   },
   title: {
-    fontSize: 70,
-    color: '#23BC9D',
-    fontFamily: 'palookabb',
-    textShadowColor: '#FFFFFF',
-    textShadowOffset: {width: 1, height: 1}
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    fontSize: 45,
+    color: Colors.title,
+    fontFamily: Assets.fonts.pal,
+    textShadowColor: Colors.white,
+    textShadowOffset: { width: 1, height: 1 }
   },
 });
