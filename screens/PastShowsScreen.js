@@ -1,34 +1,78 @@
-import * as React from 'react';
-import { 
+import React, { useState } from 'react';
+import {
   StyleSheet,
   ImageBackground,
-  Dimensions,
-  Image
+  Image,
+  Text,
+  FlatList,
+  View,
 } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
-import { Text, View } from '../components/Themed';
-const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
+import Layout from '../constants/Layout';
+import Assets from '../constants/Assets';
+import Colors from '../constants/Colors';
+import Data from '../constants/Data';
 
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
+const episodes_data = Data.episods;
 
-let logoWidth = 320;
-if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
-  logoWidth = 310;
-} else if (DEVICE_HEIGHT >= 640 && DEVICE_HEIGHT < 700) {
-  logoWidth = 290;
-} else if (DEVICE_HEIGHT >= 600 && DEVICE_HEIGHT < 640) {
-  logoWidth = 280;
-} else if (DEVICE_HEIGHT < 600) {
-  logoWidth = 270;
+function ListItem (props) {
+  return (
+    <View 
+      style={{
+        width: Layout.window.width * 0.8,
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 5,
+      }}
+    >
+      <Text style={styles.itemText}>{props.date}</Text>
+      <Text style={styles.itemText}>{props.episodeName}</Text>
+      <AntDesign name="play" size={18} color="white" onClick={() => props.download()} />
+    </View>
+  )
 }
 
 export default function PastShowsScreen() {
+  const [episodes, setEpisodes] = useState(episodes_data);
+
+  const show = (url) => {
+    window.open(url, '_blank');
+  }
+
   return (
-    <ImageBackground source={bg} style={styles.bg_image}>
-      <Image source={logo} style={styles.logo_image} />
-      <Text style={styles.title}>Past shows page</Text>
+    <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
+      <Image source={Assets.images.logo} style={styles.logo_image} />
+      <Text style={styles.title}>Past shows</Text>
+      <View
+        style={{
+          width: Layout.window.width * 0.8,
+          height: 30,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          borderBottomColor: Colors.white,
+          borderBottomWidth: 1,
+          marginTop: 20
+        }}
+      >
+        <Text style={styles.listTitle}>{`Date`.toUpperCase()}</Text>
+        <Text style={styles.listTitle}>{`Episode`.toUpperCase()}</Text>
+        <Text style={styles.listTitle}>{`Show`.toUpperCase()}</Text>
+      </View>
+      <View style={{height: 150}}>
+        <FlatList
+          data={episodes}
+          renderItem={({ item }) => (
+            <ListItem
+              date={item.date}
+              episodeName={item.episode_name}
+              url={item.url}
+              download={() => show(item.url)}
+            />
+          )}
+        />
+      </View>
     </ImageBackground>
   );
 }
@@ -38,28 +82,26 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: Layout.logoShow != 'none'? '': 'center',
   },
   logo_image: {
-    marginTop: -160,
-    width: logoWidth,
-    height: logoWidth,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: Layout.logoWidth,
+    height: Layout.logoWidth,
+    display: Layout.logoShow,
   },
   title: {
-    fontSize: 70,
-    color: '#23BC9D',
-    fontFamily: 'palookabb',
-    textShadowColor: '#FFFFFF',
-    textShadowOffset: {width: 1, height: 1}
+    fontSize: 45,
+    color: Colors.title,
+    fontFamily: Assets.fonts.pal,
+    textShadowColor: Colors.white,
+    textShadowOffset: { width: 1, height: 1 }
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  listTitle: { 
+    color: Colors.white, 
+    fontWeight: 'bold', 
+    fontSize: 16 
   },
+  itemText: {
+    color: Colors.white
+  }
 });

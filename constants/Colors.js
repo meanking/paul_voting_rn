@@ -23,4 +23,11 @@ export default {
   yellow: '#FDFD00',
   purple: '#F727A0',
   gold: '#FEA635',
+  success: '#4FD69C',
+  warning: '#FC7C5F',
+  info: '#37D5F2',
+  primary: '#7889E8',
+  danger: '#F75676',
+  secondary: '#F8FBFC',
+  default: '#3C4D69',
 };

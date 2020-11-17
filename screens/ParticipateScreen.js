@@ -1,34 +1,114 @@
-import * as React from 'react';
-import { 
+import React, { useState } from 'react';
+import {
   StyleSheet,
   ImageBackground,
-  Dimensions,
-  Image
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
 } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
+import { Checkbox } from 'react-native-paper';
 
-import { Text, View } from '../components/Themed';
-const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
+import LineInput from '../components/LineInput';
 
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
-
-let logoWidth = 320;
-if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
-  logoWidth = 310;
-} else if (DEVICE_HEIGHT >= 640 && DEVICE_HEIGHT < 700) {
-  logoWidth = 290;
-} else if (DEVICE_HEIGHT >= 600 && DEVICE_HEIGHT < 640) {
-  logoWidth = 280;
-} else if (DEVICE_HEIGHT < 600) {
-  logoWidth = 270;
-}
+import Layout from '../constants/Layout';
+import Assets from '../constants/Assets';
+import Colors from '../constants/Colors';
 
 export default function ParticipateScreen() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [talent, setTalent] = useState('');
+  const [contestant, setContestant] = useState(false);
   return (
-    <ImageBackground source={bg} style={styles.bg_image}>
-      <Image source={logo} style={styles.logo_image} />
-      <Text style={styles.title}>Participate page</Text>
+    <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
+      <Image source={Assets.images.logo} style={styles.logo_image} />
+      <Text style={styles.title}>Participate</Text>
+      <View>
+        <LineInput
+          placeholder={`Name`}
+          value={name}
+          maxlen={40}
+          encrypt={false}
+          style={{
+            width: Layout.window.width * 0.8,
+            padding: 15,
+          }}
+          onChangeText={value => setName(value)}
+        />
+        <LineInput
+          placeholder={`Email`}
+          value={email}
+          maxlen={40}
+          encrypt={false}
+          style={{
+            width: Layout.window.width * 0.8,
+            padding: 15,
+            marginTop: 10,
+          }}
+          onChangeText={value => setEmail(value)}
+        />
+        <LineInput
+          placeholder={`Phone`}
+          value={phone}
+          maxlen={40}
+          encrypt={false}
+          style={{
+            width: Layout.window.width * 0.8,
+            padding: 15,
+            marginTop: 10,
+          }}
+          onChangeText={value => setPhone(value)}
+        />
+        <LineInput
+          placeholder={`Talent`}
+          value={talent}
+          maxlen={40}
+          encrypt={false}
+          style={{
+            width: Layout.window.width * 0.8,
+            padding: 15,
+            marginTop: 10,
+          }}
+          onChangeText={value => setTalent(value)}
+        />
+      </View>
+      <View 
+        style={{
+          width: Layout.window.width * 0.8, 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          flexDirection: 'row', 
+          alignItems: 'center',
+          marginTop: 20,
+        }}
+      >
+        <View 
+          style={{
+            backgroundColor: Colors.white,
+            borderRadius: 3,
+            opacity: 0.8
+          }}
+        >
+          <Checkbox
+            status={contestant? 'checked': 'unchecked'}
+            onPress={() => setContestant(!contestant)}
+          />
+        </View>
+        <Text style={styles.itemText}>I want to be a contestant.</Text>
+        <TouchableOpacity
+          style={{
+            backgroundColor: Colors.white,
+            borderRadius: 3,
+            opacity: 0.8,
+            padding: 5,
+          }}
+        >
+          <Entypo name="paper-plane" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 }
@@ -38,28 +118,27 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: Layout.logoShow != 'none'? '': 'center',
   },
   logo_image: {
-    marginTop: -160,
-    width: logoWidth,
-    height: logoWidth,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: Layout.logoWidth,
+    height: Layout.logoWidth,
+    display: Layout.logoShow,
   },
   title: {
-    fontSize: 70,
-    color: '#23BC9D',
-    fontFamily: 'palookabb',
-    textShadowColor: '#FFFFFF',
-    textShadowOffset: {width: 1, height: 1}
+    fontSize: 45,
+    color: Colors.title,
+    fontFamily: Assets.fonts.pal,
+    textShadowColor: Colors.white,
+    textShadowOffset: { width: 1, height: 1 }
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  listTitle: { 
+    color: Colors.white, 
+    fontWeight: 'bold', 
+    fontSize: 16 
   },
+  itemText: {
+    color: Colors.white,
+    fontSize: 20,
+  }
 });

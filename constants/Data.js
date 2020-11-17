@@ -11,14 +11,14 @@ const episods = [
     date: '11/12/2020',
     time: '8:00',
     episode_name: 'Episode 1 - Season 2',
-    url: 'http://f.2txt.xyz/i/1602149240.png',
+    url: 'http://files.bamboostrategicmedia.net/i/1602171963.png',
   },
   {
     id: 3,
     date: '11/19/2020',
     time: '8:00',
     episode_name: 'Episode 2 - Season 1',
-    url: 'http://f.2txt.xyz/i/1602149240.png',
+    url: 'http://p.2txt.xyz/image/1601673408.png',
   },
   {
     id: 4,

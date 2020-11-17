@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import {
   StyleSheet,
   ImageBackground,
@@ -7,17 +8,78 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Modal,
+  TouchableHighlight,
 } from 'react-native';
 import LineInput from '../../components/LineInput';
 import RoundButton from '../../components/RoundButton';
 import Layout from '../../constants/Layout';
 import Assets from '../../constants/Assets';
 import Colors from '../../constants/Colors';
+import constants from '../../constants/Constants';
+
+function Notification({modalVisible, message, onPress}) {
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={modalVisible}
+      onRequestClose={() => console.log('Modal has been closed.')}>
+      <View style={modalStyles.centeredView}>
+        <View style={modalStyles.modalView}>
+          <Text style={modalStyles.modalText}>{message}</Text>
+
+          <TouchableHighlight
+            style={{ ...modalStyles.openButton, backgroundColor: '#2196F3' }}
+            onPress={onPress}>
+            <Text style={modalStyles.textStyle}>Ok</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    </Modal>
+  )
+}
 
 export default function LoginScreen() {
   const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [notification, setNotification] = useState({
+    show: false,
+    color: Colors.secondary,
+    message: '',
+  })
+
+  const login = () => {
+    axios({
+      method: 'POST',
+      url: constants.api_url + '/login',
+      data: {
+        email: email,
+        password: password,
+      }
+    })
+      .then(response => {
+        let data = response.data;
+        console.log('response data :: ', data);
+        setNotification({
+          ...notification,
+          show: true,
+          color: Colors.success,
+          message: data.message,
+        })
+      })
+      .catch(error => {
+        let errors = error.response.data;
+        console.error('error :: ', errors);
+        setNotification({
+          ...notification,
+          show: true,
+          color: Colors.warning,
+          message: errors.message,
+        })
+      })
+  }
   return (
     <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
       <Image source={Assets.images.logo} style={styles.logo_image} />
@@ -58,6 +120,7 @@ export default function LoginScreen() {
         <RoundButton
           style={styles.login}
           textStyle={styles.loginText}
+          onPress={() => login()}
           text={`Login`.toUpperCase()}
         />
         <View style={styles.footer}>
@@ -67,19 +130,85 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={notification.show}
+        onRequestClose={() => console.log('Modal has been closed.')}>
+        <View style={modalStyles.centeredView}>
+          <View style={modalStyles.modalView}>
+            <Text 
+              style={{
+                ...modalStyles.modalText,
+                color: notification.color,
+              }}
+            >{notification.message}</Text>
+
+            <TouchableHighlight
+              style={modalStyles.openButton}
+              onPress={() => setNotification({
+                ...notification,
+                show: false,
+              })}>
+              <Text style={modalStyles.textStyle}>Ok</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </Modal>
     </ImageBackground>
   );
 }
+
+const modalStyles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    borderColor: Colors.success,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  openButton: {
+    marginTop: 20,
+    backgroundColor: '#F194FF',
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    color: Colors.default
+  },
+})
 
 const styles = StyleSheet.create({
   bg_image: {
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: Layout.logoShow != 'none'? '': 'center',
   },
   logo_image: {
-    marginTop: -50,
     width: Layout.logoWidth,
     height: Layout.logoWidth,
     display: Layout.logoShow,
