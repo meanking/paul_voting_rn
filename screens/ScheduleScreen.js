@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
   StyleSheet,
   ImageBackground,
@@ -6,16 +9,18 @@ import {
   Text,
   FlatList,
   View,
+  CheckBox,
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import { Checkbox } from 'react-native-paper';
 
+import Notification from '../components/Notification';
 import LineInput from '../components/LineInput';
 
 import Layout from '../constants/Layout';
 import Assets from '../constants/Assets';
 import Colors from '../constants/Colors';
 import Data from '../constants/Data';
+import constants from '../constants/Constants';
 
 const episodes_data = Data.episods;
 
@@ -39,12 +44,103 @@ function ListItem (props) {
 }
 
 export default function ScheduleScreen() {
+  const navigation = useNavigation();
+
+  const [notification, setNotification] = useState({
+    show: false,
+    color: Colors.secondary,
+    message: '',
+  })
+
   const [episodes, setEpisodes] = useState(episodes_data);
+  const [user, setUser] = useState('');
+  const [token, setToken] = useState('');
   const [phone, setPhone] = useState('');
   const [reminder, setReminder] = useState(false);
 
+  useEffect(() => {
+    if (Cookies.get('vote_user')) {
+      let u = JSON.parse(Cookies.get('vote_user'))
+      setUser(u)
+      setReminder(u.sms_reminder == 1? true: false)
+      setPhone(u.phone? u.phone: '')
+    }
+    if (Cookies.get('vote_token')) {
+      setToken(Cookies.get('vote_token'))
+    }
+  }, [])
+
   const download = (url) => {
     window.open(url, '_blank');
+  }
+
+  const sendReminder = (value) => {
+    if (!user) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.danger,
+        message: 'Please login first',
+      })
+      setTimeout(() => {
+        setNotification({
+          ...notification,
+          show: false,
+        })
+        navigation.navigate('LoginScreen');
+      }, 1500);
+    } else {
+      if (value) {
+        if (!phone) {
+          setNotification({
+            ...notification,
+            show: true,
+            color: Colors.purple,
+            message: 'Please enter phone number.'
+          })
+          return
+        } else {
+          axios({
+            method: 'POST',
+            url: constants.api_url + '/updatePhone',
+            headers: {
+              Authorization: 'Bearer ' + token
+            },
+            data: {
+              phone: phone,
+              sms_reminder: 1
+            }
+          })
+            .then(response => {
+              let data = response.data;
+              console.log('response data :: ', data);
+              setReminder(value);
+            })
+            .catch(error => {
+              console.error('error :: ', error.response);
+            })
+        }
+      } else {
+        axios({
+          method: 'POST',
+          url: constants.api_url + '/updatePhone',
+          headers: {
+            Authorization: 'Bearer ' + token
+          },
+          data: {
+            sms_reminder: 0
+          }
+        })
+          .then(response => {
+            let data = response.data;
+            console.log('response data :: ', data);
+            setReminder(value);
+          })
+          .catch(error => {
+            console.error('error :: ', error.response);
+          })
+      }
+    }
   }
 
   return (
@@ -79,6 +175,7 @@ export default function ScheduleScreen() {
               download={() => download(item.url)}
             />
           )}
+          keyExtractor={item => item.id.toString()}
         />
       </View>
       <View 
@@ -110,12 +207,22 @@ export default function ScheduleScreen() {
             opacity: 0.8
           }}
         >
-          <Checkbox
-            status={reminder? 'checked': 'unchecked'}
-            onPress={() => setReminder(!reminder)}
+          <CheckBox
+            value={reminder}
+            onValueChange={value => sendReminder(value)}
+            style={styles.checkbox}
           />
         </View>
       </View>
+      <Notification 
+        visible={notification.show} 
+        color={notification.color} 
+        message={notification.message} 
+        onPress={() => setNotification({
+          ...notification,
+          show: false,
+        })} 
+      />
     </ImageBackground>
   );
 }
@@ -146,5 +253,8 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: Colors.white
-  }
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
 });

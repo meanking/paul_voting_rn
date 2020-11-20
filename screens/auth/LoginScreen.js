@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
   StyleSheet,
   ImageBackground,
@@ -8,8 +9,6 @@ import {
   TouchableOpacity,
   Text,
   View,
-  Modal,
-  TouchableHighlight,
 } from 'react-native';
 import LineInput from '../../components/LineInput';
 import RoundButton from '../../components/RoundButton';
@@ -18,27 +17,7 @@ import Assets from '../../constants/Assets';
 import Colors from '../../constants/Colors';
 import constants from '../../constants/Constants';
 
-function Notification({modalVisible, message, onPress}) {
-  return (
-    <Modal
-      animationType="slide"
-      transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => console.log('Modal has been closed.')}>
-      <View style={modalStyles.centeredView}>
-        <View style={modalStyles.modalView}>
-          <Text style={modalStyles.modalText}>{message}</Text>
-
-          <TouchableHighlight
-            style={{ ...modalStyles.openButton, backgroundColor: '#2196F3' }}
-            onPress={onPress}>
-            <Text style={modalStyles.textStyle}>Ok</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    </Modal>
-  )
-}
+import Notification from '../../components/Notification';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
@@ -62,6 +41,8 @@ export default function LoginScreen() {
       .then(response => {
         let data = response.data;
         console.log('response data :: ', data);
+        Cookies.set('vote_token', data.data.token, {expires: 1/12});
+        Cookies.set('vote_user', JSON.stringify(data.data.user), {expires: 1/12});
         setNotification({
           ...notification,
           show: true,
@@ -130,76 +111,18 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
       </View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={notification.show}
-        onRequestClose={() => console.log('Modal has been closed.')}>
-        <View style={modalStyles.centeredView}>
-          <View style={modalStyles.modalView}>
-            <Text 
-              style={{
-                ...modalStyles.modalText,
-                color: notification.color,
-              }}
-            >{notification.message}</Text>
-
-            <TouchableHighlight
-              style={modalStyles.openButton}
-              onPress={() => setNotification({
-                ...notification,
-                show: false,
-              })}>
-              <Text style={modalStyles.textStyle}>Ok</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </Modal>
+      <Notification 
+        visible={notification.show} 
+        color={notification.color} 
+        message={notification.message} 
+        onPress={() => setNotification({
+          ...notification,
+          show: false,
+        })} 
+      />
     </ImageBackground>
   );
 }
-
-const modalStyles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    borderColor: Colors.success,
-    padding: 35,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  openButton: {
-    marginTop: 20,
-    backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
-    color: Colors.default
-  },
-})
 
 const styles = StyleSheet.create({
   bg_image: {

@@ -12,8 +12,10 @@ if (height >= 700 && height < 736) {
   logoShow = 'none';
 } else if (height >= 600 && height < 640) {
   logoWidth = 220;
+  logoShow = 'none';
 } else if (height < 600) {
   logoWidth = 210;
+  logoShow = 'none';
 }
 
 export default {

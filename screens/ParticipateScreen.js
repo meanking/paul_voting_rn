@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import {
   StyleSheet,
   ImageBackground,
@@ -6,22 +8,136 @@ import {
   Text,
   View,
   TouchableOpacity,
+  CheckBox,
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import { Checkbox } from 'react-native-paper';
 
+import Notification from '../components/Notification';
 import LineInput from '../components/LineInput';
 
 import Layout from '../constants/Layout';
 import Assets from '../constants/Assets';
 import Colors from '../constants/Colors';
+import constants from '../constants/Constants';
 
 export default function ParticipateScreen() {
+
+  const [notification, setNotification] = useState({
+    show: false,
+    color: Colors.secondary,
+    message: '',
+  })
+
+  const [token, setToken] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [talent, setTalent] = useState('');
-  const [contestant, setContestant] = useState(false);
+  const [require, setRequire] = useState(false);
+
+  useEffect(() => {
+    if (Cookies.get('vote_user')) {
+      let u = JSON.parse(Cookies.get('vote_user'))
+      setName(u.fullname? u.fullname: '')
+      setEmail(u.email? u.email: '')
+      setPhone(u.phone? u.phone: '')
+    }
+    if (Cookies.get('vote_token')) {
+      setToken(Cookies.get('vote_token'))
+    }
+  }, [])
+
+  const requestParticipate = () => {
+    if (!name) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'Please fill name.',
+      })
+      return
+    }    
+    if (!email) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'Please fill email.',
+      })
+      return
+    }    
+    if (!phone) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'Please fill phone.',
+      })
+      return
+    }    
+    if (!talent) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'Please fill talent.',
+      })
+      return
+    }   
+    if (!require) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'Please check contestant requirement.',
+      })
+      return
+    }
+    
+    axios({
+      method: 'POST',
+      url: constants.api_url + '/participates',
+      headers: {
+        Authorization: 'Bearer ' + token
+      },
+      data: {
+        name: name,
+        email: email,
+        phone: phone,
+        talent: talent,
+        require_contestant: require,
+      }
+    })
+      .then(response => {
+        let data = response.data;
+        console.log('response data :: ', data.message);
+        setNotification({
+          ...notification,
+          show: true,
+          color: Colors.success,
+          message: data.message
+        })
+      })
+      .catch(error => {
+        console.error('error :: ', error.response);
+        if (error.response.status == 422) {
+          let errors = error.response.data.errors;
+          let errorMessage = '';
+          let i = 0;
+          Object.keys(errors).map(key => {
+            i ++
+            errorMessage += '<b>' + i + '</b>. ' + key + ': ' + errors[key];
+          })
+          setNotification({
+            ...notification,
+            show: true,
+            color: Colors.danger,
+            message: errorMessage,
+          })
+        }
+      })
+  }
+  
   return (
     <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
       <Image source={Assets.images.logo} style={styles.logo_image} />
@@ -92,9 +208,10 @@ export default function ParticipateScreen() {
             opacity: 0.8
           }}
         >
-          <Checkbox
-            status={contestant? 'checked': 'unchecked'}
-            onPress={() => setContestant(!contestant)}
+          <CheckBox
+            value={require}
+            onValueChange={setRequire}
+            style={styles.checkbox}
           />
         </View>
         <Text style={styles.itemText}>I want to be a contestant.</Text>
@@ -105,10 +222,20 @@ export default function ParticipateScreen() {
             opacity: 0.8,
             padding: 5,
           }}
+          onPress={() => requestParticipate()}
         >
           <Entypo name="paper-plane" size={24} color="black" />
         </TouchableOpacity>
       </View>
+      <Notification 
+        visible={notification.show} 
+        color={notification.color} 
+        message={notification.message} 
+        onPress={() => setNotification({
+          ...notification,
+          show: false,
+        })} 
+      />
     </ImageBackground>
   );
 }
@@ -140,5 +267,8 @@ const styles = StyleSheet.create({
   itemText: {
     color: Colors.white,
     fontSize: 20,
-  }
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
 });
