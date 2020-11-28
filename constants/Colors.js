@@ -19,6 +19,7 @@ export default {
   title: '#23BC9D',
   sky: '#7CF5FE',  
   white: '#FFFFFF',
+  black: '#000000',
   darkWhite: '#A1A2CD',
   yellow: '#FDFD00',
   purple: '#F727A0',

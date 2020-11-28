@@ -1,6 +1,7 @@
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+
 import * as React from 'react';
 
 import Colors from '../constants/Colors';
@@ -20,12 +21,12 @@ import ScheduleScreen from '../screens/ScheduleScreen';
 import ParticipateScreen from '../screens/ParticipateScreen';
 import PastShowsScreen from '../screens/PastShowsScreen';
 import SponsorsScreen from '../screens/SponsorsScreen';
+import { StackActions } from '@react-navigation/native';
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator(props) {
   const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
@@ -35,6 +36,19 @@ export default function BottomTabNavigator() {
         component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => <AntDesign name="home" size={24} color={color} />,
+        }}
+        listeners={{
+          tabPress :(e)=>{
+            e.preventDefault();
+            props.navigation.dispatch(StackActions.replace(
+              'MainHome', {
+                screen: 'Home',
+                params: {
+                  screen: 'HomeScreen'
+                }
+              }
+            ));
+          }
         }}
       />
       <BottomTab.Screen
@@ -80,7 +94,8 @@ export default function BottomTabNavigator() {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator();
 
-function HomeNavigator() {
+function HomeNavigator(props) {
+
   return (
     <HomeStack.Navigator initialRouteName="HomeScreen">
       <HomeStack.Screen

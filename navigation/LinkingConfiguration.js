@@ -8,12 +8,18 @@ export default {
         screens: {
           Home: {
             screens: {
-              Home: {
+              MainHome: {
                 screens: {
                   Home: {
                     screens: {
                       HomeScreen: 'home',
-                      LoginScreen: 'login',
+                      LoginScreen: {
+                        screens: {
+                          LoginScreen: 'login',
+                          ForgotScreen: 'forgot',
+                          SignupScreen: 'signup',
+                        }
+                      },
                       ScheduleScreen: 'schedule',
                       ParticipateScreen: 'participate',
                       PastShowsScreen: 'pastshows',

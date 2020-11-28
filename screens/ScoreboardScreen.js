@@ -1,34 +1,156 @@
-import * as React from 'react';
-import { 
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { Avatar } from 'react-native-elements';
+import {
   StyleSheet,
   ImageBackground,
-  Dimensions,
-  Image
+  Image,
+  Text,
+  View,
+  FlatList,
 } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
-import { Text, View } from '../components/Themed';
-const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
+import Notification from '../components/Notification';
 
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
-
-let logoWidth = 320;
-if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
-  logoWidth = 310;
-} else if (DEVICE_HEIGHT >= 640 && DEVICE_HEIGHT < 700) {
-  logoWidth = 290;
-} else if (DEVICE_HEIGHT >= 600 && DEVICE_HEIGHT < 640) {
-  logoWidth = 280;
-} else if (DEVICE_HEIGHT < 600) {
-  logoWidth = 270;
-}
+import Layout from '../constants/Layout';
+import Assets from '../constants/Assets';
+import Colors from '../constants/Colors';
+import constants from '../constants/Constants';
 
 export default function ScoreboardScreen() {
+
+  const [notification, setNotification] = useState({
+    show: false,
+    color: Colors.secondary,
+    message: '',
+  })
+
+  const [token, setToken] = useState('');
+  const [episode, setEpisode] = useState('');
+  const [contestants, setContestants] = useState([]);
+
+  useEffect(() => {
+    if (Cookies.get('vote_token')) {
+      let vote_token = Cookies.get('vote_token')
+      setToken(vote_token)
+
+      axios({
+        method: 'GET',
+        url: constants.api_url + '/vote/result',
+        headers: {
+          Authorization: 'Bearer ' + vote_token
+        },
+      })
+        .then(response => {
+          let data = response.data;
+          console.log('response data :: ', data);
+          setEpisode(data.data.episode);
+          setContestants(data.data.contestants);
+        })
+        .catch(error => {
+          console.error('error :: ', error);
+          setNotification({
+            ...notification,
+            show: true,
+            color: Colors.danger,
+            message: error.response.statusText,
+          })
+        })
+    }
+  }, [])
+
+  const renderItem = ({item, index}) => {
+    return (
+      <>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginVertical: 10,
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              marginRight: 25,
+            }}
+          >
+            <Avatar
+              source={Assets.images[`d${index + 1}`]}
+              size="medium"
+            />
+          </View>
+          <View
+            style={{
+              marginRight: 20,
+            }}
+          >
+            <Avatar
+              rounded
+              source={{
+                uri: item.candidate.profile_image,
+              }}
+              size="medium"
+            />
+          </View>
+          <View
+            style={{
+              marginRight: 20,
+            }}
+          >
+            <Text
+              style={{
+                color: Colors.white,
+                fontSize: 18,
+                fontFamily: Assets.fonts.cal,
+              }}
+            >{item.candidate.name}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row'
+            }}
+          >
+            <AntDesign name="star" size={20} color={Colors.yellow} />{` `}
+            <Text
+              style={{
+                marginLeft: 10,
+                color: Colors.gold,
+                fontSize: 18,
+                fontFamily: Assets.fonts.cal,
+              }}
+            >{item.token_count}</Text>
+          </View>
+        </View>
+      </>
+    )
+  }
+  
   return (
-    <ImageBackground source={bg} style={styles.bg_image}>
-      <Image source={logo} style={styles.logo_image} />
-      <Text style={styles.title}>Scoreboard page</Text>
+    <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
+      <Image source={Assets.images.logo} style={styles.logo_image} />
+      <Text style={styles.title}>{episode.name}</Text>
+      <View
+       style={{
+         height: Layout.window.height * 0.45,
+       }}
+      >
+        <FlatList 
+          data={contestants}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      </View>
+      <Notification 
+        visible={notification.show} 
+        color={notification.color} 
+        message={notification.message} 
+        onPress={() => setNotification({
+          ...notification,
+          show: false,
+        })} 
+      />
     </ImageBackground>
   );
 }
@@ -38,28 +160,30 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: Layout.logoShow != 'none'? '': 'center',
   },
   logo_image: {
-    marginTop: -160,
-    width: logoWidth,
-    height: logoWidth,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: Layout.logoWidth,
+    height: Layout.logoWidth,
+    display: Layout.logoShow,
   },
   title: {
-    fontSize: 70,
-    color: '#23BC9D',
-    fontFamily: 'palookabb',
-    textShadowColor: '#FFFFFF',
-    textShadowOffset: {width: 1, height: 1}
+    fontSize: 45,
+    color: Colors.title,
+    fontFamily: Assets.fonts.pal,
+    textShadowColor: Colors.white,
+    textShadowOffset: { width: 1, height: 1 }
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  listTitle: { 
+    color: Colors.white, 
+    fontWeight: 'bold', 
+    fontSize: 16 
+  },
+  itemText: {
+    color: Colors.white,
+    fontSize: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
   },
 });

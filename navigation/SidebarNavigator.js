@@ -40,9 +40,9 @@ const NavigationDrawerStructure = (props) => {
 
 function homeScreenStack({ navigation }) {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="MainHome">
       <Stack.Screen
-        name="Home"
+        name="MainHome"
         component={BottomTabNavigator}
         options={{
           title: '',
