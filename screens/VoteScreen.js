@@ -14,6 +14,7 @@ import {
   SafeAreaView,
   Modal,
   TextInput,
+  Keyboard,
 } from 'react-native';
 
 import Notification from '../components/Notification';
@@ -38,6 +39,23 @@ export default function VoteScreen() {
   const [voteModal, setVoteModal] = useState({
     show: false,
     data: {},
+  })
+
+  const [dialogStyle, setDialogStyle] = useState({
+    marginTop: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    borderColor: Colors.success,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   })
 
   useEffect(() => {
@@ -93,7 +111,44 @@ export default function VoteScreen() {
           })
         })
     }
+
   }, [])
+
+  useEffect(()=> {
+    
+    Keyboard.addListener('keyboardDidShow', _keyboardDidShow())
+    Keyboard.addListener('keyboardDidHide', _keyboardDidHide())
+
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow());
+      Keyboard.removeListener('keyboardDidHide', _keyboardDidHide());
+    }
+  }, [])
+  const _keyboardDidShow = () => {
+    setDialogStyle({
+      ...dialogStyle,
+      marginTop: -300,
+    })
+  }
+
+  const _keyboardDidHide = () => {
+    setDialogStyle({
+      margin: 20,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      borderColor: Colors.success,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
+    })
+  }
 
   const renderItem = (props) => {
     return (
@@ -169,6 +224,16 @@ export default function VoteScreen() {
         show: true,
         color: Colors.purple,
         message: 'Please fill with number value.',
+      })
+      return
+    }
+
+    if (Number(voteToken) > Number(initCount)) {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'You have no enough tokens. Please buy more tokens',
       })
       return
     }
@@ -253,7 +318,8 @@ export default function VoteScreen() {
         visible={voteModal.show}
         onRequestClose={() => console.log('Vote Modal has been closed.')}>
         <View style={modalStyles.centeredView}>
-          <View style={modalStyles.modalView}>
+          {/* <View style={modalStyles.modalView}> */}
+          <View style={dialogStyle}>
             <Avatar
               rounded
               source={{
@@ -271,21 +337,6 @@ export default function VoteScreen() {
             >
               {voteModal.data && voteModal.data.candidate ? voteModal.data.candidate.name : ''}
             </Text>
-            <View
-              style={{
-                minHeight: Layout.window.height * 0.3,
-                marginTop: Layout.window.height * 0.05,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontFamily: Assets.fonts.calLi,
-                }}
-              >
-                {voteModal.data ? voteModal.data.description : ''}
-              </Text>
-            </View>
             <View
               style={{
                 display: 'flex',
@@ -316,6 +367,21 @@ export default function VoteScreen() {
               >
                 <AntDesign name="like1" size={24} color={Colors.purple} />
               </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                minHeight: Layout.window.height * 0.15,
+                marginTop: Layout.window.height * 0.05,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontFamily: Assets.fonts.calLi,
+                }}
+              >
+                {voteModal.data ? voteModal.data.description : ''}
+              </Text>
             </View>
             <View>
               <TouchableOpacity

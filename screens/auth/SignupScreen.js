@@ -48,6 +48,13 @@ export default function SignupScreen() {
           color: Colors.success,
           message: data.message,
         })
+        setTimeout(() => {
+          setNotification({
+            ...notification,
+            show: false,
+          })
+          navigation.navigate('LoginScreen')
+        }, 1500);
       })
       .catch(error => {
         let errors = error.response.data;
