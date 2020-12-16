@@ -11,11 +11,6 @@ import { AppLoading } from 'expo';
 
 const customFonts = {
   Calibri: require('./assets/fonts/calibri.ttf'),
-  Calibrib: require('./assets/fonts/calibrib.ttf'),
-  Calibrii: require('./assets/fonts/calibrii.ttf'),
-  Calibril: require('./assets/fonts/calibril.ttf'),
-  Calibrili: require('./assets/fonts/calibrili.ttf'),
-  Calibriz: require('./assets/fonts/calibriz.ttf'),
   PalookaBBital: require('./assets/fonts/PalookaBB_ital.ttf'),
   PalookaBB: require('./assets/fonts/PalookaBB.ttf'),
 }

@@ -282,12 +282,12 @@ const styles = StyleSheet.create({
   title1: {
     fontSize: 30,
     color: Colors.gold,
-    fontFamily: Assets.fonts.calB,
+    fontFamily: Assets.fonts.cal,
   },
   title2: {
     fontSize: 30,
     color: Colors.title,
-    fontFamily: Assets.fonts.calB,
+    fontFamily: Assets.fonts.cal,
   },
   title3: {
     fontSize: 35,

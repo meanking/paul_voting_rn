@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   notice2: { 
-    fontFamily: Assets.fonts.calB, 
+    fontFamily: Assets.fonts.cal, 
     color: Colors.sky, 
     fontSize: notice2FontSize, 
     fontWeight: 'bold', 

@@ -162,7 +162,7 @@ export default function VoteScreen() {
         />
         <Text
           style={{
-            fontFamily: Assets.fonts.calB,
+            fontFamily: Assets.fonts.cal,
             fontSize: 18,
             color: Colors.white,
             marginTop: 10,            
@@ -329,7 +329,7 @@ export default function VoteScreen() {
             />
             <Text
               style={{
-                fontFamily: Assets.fonts.calB,
+                fontFamily: Assets.fonts.cal,
                 fontSize: 18,
                 color: Colors.black,
                 marginTop: 10,

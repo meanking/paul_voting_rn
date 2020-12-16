@@ -135,7 +135,7 @@ export default function LoginScreen() {
             style={{
               color: Colors.success,
               fontSize: 24,
-              fontFamily: Assets.fonts.calB,
+              fontFamily: Assets.fonts.cal,
               marginLeft: 20,
             }}
           >{`Vote with tokens`}</Text>
@@ -152,7 +152,7 @@ export default function LoginScreen() {
             style={{
               color: Colors.success,
               fontSize: 24,
-              fontFamily: Assets.fonts.calB,
+              fontFamily: Assets.fonts.cal,
               marginLeft: 20,
             }}
           >{`Buy more tokens`}</Text>
@@ -169,7 +169,7 @@ export default function LoginScreen() {
             style={{
               color: Colors.success,
               fontSize: 24,
-              fontFamily: Assets.fonts.calB,
+              fontFamily: Assets.fonts.cal,
               marginLeft: 20,
             }}
           >{`View scoreboard`}</Text>
@@ -186,7 +186,7 @@ export default function LoginScreen() {
             style={{
               color: Colors.success,
               fontSize: 24,
-              fontFamily: Assets.fonts.calB,
+              fontFamily: Assets.fonts.cal,
               marginLeft: 20,
             }}
           >{`Chat with Octavius`}</Text>
@@ -203,7 +203,7 @@ export default function LoginScreen() {
             style={{
               color: Colors.success,
               fontSize: 24,
-              fontFamily: Assets.fonts.calB,
+              fontFamily: Assets.fonts.cal,
               marginLeft: 20,
             }}
           >{`Enjoy the show!`}</Text>

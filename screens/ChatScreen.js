@@ -2,32 +2,18 @@ import * as React from 'react';
 import { 
   StyleSheet,
   ImageBackground,
-  Dimensions,
   Image
 } from 'react-native';
 
-import { Text, View } from '../components/Themed';
-const bg = {uri: require('../assets/images/Graphics_T10_Plain_BG.jpg')};
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
-
-const DEVICE_HEIGHT = Dimensions.get('window').height;
-const DEVICE_WIDTH  = Dimensions.get('window').width;
-
-let logoWidth = 320;
-if (DEVICE_HEIGHT >= 700 && DEVICE_HEIGHT < 736) {
-  logoWidth = 310;
-} else if (DEVICE_HEIGHT >= 640 && DEVICE_HEIGHT < 700) {
-  logoWidth = 290;
-} else if (DEVICE_HEIGHT >= 600 && DEVICE_HEIGHT < 640) {
-  logoWidth = 280;
-} else if (DEVICE_HEIGHT < 600) {
-  logoWidth = 270;
-}
+import { Text } from '../components/Themed';
+import Layout from '../constants/Layout';
+import Assets from '../constants/Assets';
+import Colors from '../constants/Colors';
 
 export default function ChatScreen() {
   return (
-    <ImageBackground source={bg} style={styles.bg_image}>
-      <Image source={logo} style={styles.logo_image} />
+    <ImageBackground source={Assets.images.bg} style={styles.bg_image}>
+      <Image source={Assets.images.logo} style={styles.logo_image} />
       <Text style={styles.title}>Chat page</Text>
     </ImageBackground>
   );
@@ -42,8 +28,8 @@ const styles = StyleSheet.create({
   },
   logo_image: {
     marginTop: -160,
-    width: logoWidth,
-    height: logoWidth,
+    width: Layout.logoWidth,
+    height: Layout.logoWidth,
   },
   container: {
     flex: 1,
@@ -52,9 +38,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 70,
-    color: '#23BC9D',
-    fontFamily: 'palookabb',
-    textShadowColor: '#FFFFFF',
+    color: Colors.title,
+    fontFamily: Assets.fonts.pal,
+    textShadowColor: Colors.white,
     textShadowOffset: {width: 1, height: 1}
   },
   separator: {

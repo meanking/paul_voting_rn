@@ -1,16 +1,16 @@
-import logo from '../assets/images/Graphics_T10_Logo(Transparent)__10.png';
-const bg = { uri: require('../assets/images/Graphics_T10_Plain_BG.jpg') };
-import tokenBack from '../assets/images/playstore.png';
-const d1 = { uri: require('../assets/images/1.png') };
-const d2 = { uri: require('../assets/images/2.png') };
-const d3 = { uri: require('../assets/images/3.png') };
-const d4 = { uri: require('../assets/images/4.png') };
-const d5 = { uri: require('../assets/images/5.png') };
-const d6 = { uri: require('../assets/images/6.png') };
-const d7 = { uri: require('../assets/images/7.png') };
-const d8 = { uri: require('../assets/images/8.png') };
-const d9 = { uri: require('../assets/images/9.png') };
-const d10 = { uri: require('../assets/images/10.png') };
+import logo from '../assets/images/10.webp';
+const bg = { uri: require('../assets/images/bg.webp') };
+import tokenBack from '../assets/images/playstore.webp';
+const d1 = { uri: require('../assets/images/1.webp') };
+const d2 = { uri: require('../assets/images/2.webp') };
+const d3 = { uri: require('../assets/images/3.webp') };
+const d4 = { uri: require('../assets/images/4.webp') };
+const d5 = { uri: require('../assets/images/5.webp') };
+const d6 = { uri: require('../assets/images/6.webp') };
+const d7 = { uri: require('../assets/images/7.webp') };
+const d8 = { uri: require('../assets/images/8.webp') };
+const d9 = { uri: require('../assets/images/9.webp') };
+const d10 = { uri: require('../assets/images/10.webp') };
 
 export default {
   images: {
@@ -31,11 +31,6 @@ export default {
   fonts: {
     pal: 'PalookaBB',
     palL: 'PalookaBBital',
-    cal: 'Calibri',
-    calB: 'Calibrib',
-    calI: 'Calibrii',
-    calL: 'Calibril',
-    calLi: 'Calibrili',
-    calZ: 'Calibriz',
+    cal: 'Calibri'
   }
 }
