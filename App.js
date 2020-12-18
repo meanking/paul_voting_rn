@@ -10,9 +10,9 @@ import Navigation from './navigation';
 import { AppLoading } from 'expo';
 
 const customFonts = {
-  Calibri: require('./assets/fonts/calibri.ttf'),
-  PalookaBBital: require('./assets/fonts/PalookaBB_ital.ttf'),
-  PalookaBB: require('./assets/fonts/PalookaBB.ttf'),
+  Calibri: require('./assets/fonts/calibri.woff'),
+  PalookaBBital: require('./assets/fonts/PalookaBB_ital.woff'),
+  PalookaBB: require('./assets/fonts/PalookaBB.woff'),
 }
 
 export default function App() {
