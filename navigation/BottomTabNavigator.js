@@ -1,27 +1,68 @@
+import * as React from 'react';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-
-import * as React from 'react';
+import Loadable from 'react-loadable';
+import Loading from './Loading';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 
-import HomeScreen from '../screens/HomeScreen';
-import LiveScreen from '../screens/LiveScreen';
-import TokensScreen from '../screens/TokensScreen';
-import VoteScreen from '../screens/VoteScreen';
-import ScoreboardScreen from '../screens/ScoreboardScreen';
-import ChatScreen from '../screens/ChatScreen';
-
-import LoginScreen from '../screens/auth/LoginScreen';
-import ForgotScreen from '../screens/auth/ForgotScreen';
-import SignupScreen from '../screens/auth/SignupScreen';
-import ScheduleScreen from '../screens/ScheduleScreen';
-import ParticipateScreen from '../screens/ParticipateScreen';
-import PastShowsScreen from '../screens/PastShowsScreen';
-import SponsorsScreen from '../screens/SponsorsScreen';
 import { StackActions } from '@react-navigation/native';
+
+const HomeScreen = Loadable({
+  loader: () => import('../screens/HomeScreen'),
+  loading: Loading,
+})
+const LiveScreen = Loadable({
+  loader: () => import('../screens/LiveScreen'),
+  loading: Loading,
+})
+const TokensScreen = Loadable({
+  loader: () => import('../screens/TokensScreen'),
+  loading: Loading,
+})
+const VoteScreen = Loadable({
+  loader: () => import('../screens/VoteScreen'),
+  loading: Loading,
+})
+const ScoreboardScreen = Loadable({
+  loader: () => import('../screens/ScoreboardScreen'),
+  loading: Loading,
+})
+const ChatScreen = Loadable({
+  loader: () => import('../screens/ChatScreen'),
+  loading: Loading,
+})
+
+const LoginScreen = Loadable({
+  loader: () => import('../screens/auth/LoginScreen'),
+  loading: Loading,
+})
+const ForgotScreen = Loadable({
+  loader: () => import('../screens/auth/ForgotScreen'),
+  loading: Loading,
+})
+const SignupScreen = Loadable({
+  loader: () => import('../screens/auth/SignupScreen'),
+  loading: Loading,
+})
+const ScheduleScreen = Loadable({
+  loader: () => import('../screens/ScheduleScreen'),
+  loading: Loading,
+})
+const ParticipateScreen = Loadable({
+  loader: () => import('../screens/ParticipateScreen'),
+  loading: Loading,
+})
+const PastShowsScreen = Loadable({
+  loader: () => import('../screens/PastShowsScreen'),
+  loading: Loading,
+})
+const SponsorsScreen = Loadable({
+  loader: () => import('../screens/SponsorsScreen'),
+  loading: Loading,
+})
 
 const BottomTab = createBottomTabNavigator();
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { Avatar } from 'react-native-elements';
@@ -20,6 +21,7 @@ import Colors from '../constants/Colors';
 import constants from '../constants/Constants';
 
 export default function ScoreboardScreen() {
+  const navigation = useNavigation()
 
   const [notification, setNotification] = useState({
     show: false,
@@ -32,6 +34,33 @@ export default function ScoreboardScreen() {
   const [contestants, setContestants] = useState([]);
 
   useEffect(() => {
+    if (Cookies.get('vote_user')) {
+      let u = JSON.parse(Cookies.get('vote_user'))
+      setInitCount(u.token_count)
+    } else {
+      setNotification({
+        ...notification,
+        show: true,
+        color: Colors.purple,
+        message: 'Please login first.',
+      })
+      setTimeout(() => {
+        setNotification({
+          ...notification,
+          show: false,
+        })
+        navigation.dispatch(
+          StackActions.replace(
+            'MainHome', {
+              screen: 'Home',
+              params: {
+                screen: 'LoginScreen'
+              }
+            }
+          )
+        )
+      }, 1500);
+    }
     if (Cookies.get('vote_token')) {
       let vote_token = Cookies.get('vote_token')
       setToken(vote_token)

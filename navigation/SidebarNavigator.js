@@ -5,10 +5,16 @@ import 'react-native-gesture-handler';
 
 import * as React from 'react';
 import { View, TouchableOpacity, Image } from 'react-native';
+import Loadable from 'react-loadable';
+import Loading from './Loading';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import BottomTabNavigator from './BottomTabNavigator';
+
+const BottomTabNavigator = Loadable({
+  loader: () => import('./BottomTabNavigator'),
+  loading: Loading,
+})
 
 // Import Custom Sidebar
 import CustomSidebarMenu from './CustomSidebarMenu';

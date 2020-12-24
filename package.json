@@ -31,6 +31,7 @@
     "js-cookie": "^2.2.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-loadable": "^5.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-elements": "^3.0.0-alpha.1",
     "react-native-gesture-handler": "~1.7.0",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@expo/webpack-config": "^0.12.51",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "jest-expo": "~39.0.0",

@@ -9,7 +9,7 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 
-import { StackActions, CommonActions } from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 
 const CustomSidebarMenu = (props) => {
   return (

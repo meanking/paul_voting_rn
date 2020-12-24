@@ -318,7 +318,6 @@ export default function VoteScreen() {
         visible={voteModal.show}
         onRequestClose={() => console.log('Vote Modal has been closed.')}>
         <View style={modalStyles.centeredView}>
-          {/* <View style={modalStyles.modalView}> */}
           <View style={dialogStyle}>
             <Avatar
               rounded

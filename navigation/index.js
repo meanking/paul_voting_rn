@@ -1,10 +1,19 @@
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
+import Loadable from 'react-loadable';
+import Loading from './Loading';
 
-import NotFoundScreen from '../screens/NotFoundScreen';
-import SidebarbNavigator from './SidebarNavigator';
 import LinkingConfiguration from './LinkingConfiguration';
+
+const NotFoundScreen = Loadable({
+  loader: () => import('../screens/NotFoundScreen'),
+  loading: Loading,
+})
+const SidebarbNavigator = Loadable({
+  loader: () => import('./SidebarNavigator'),
+  loading: Loading,
+})
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
